@@ -6,6 +6,23 @@ namespace Library.Infrastructure.Data;
 
 public class JsonData
 {
+    public Book? FindBookByTitle(string title)
+    {
+        if (Books == null) return null;
+        return Books.FirstOrDefault(b => string.Equals(b.Title, title, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public List<BookItem> GetBookItemsForBook(int bookId)
+    {
+        if (BookItems == null) return new List<BookItem>();
+        return BookItems.Where(bi => bi.BookId == bookId).ToList();
+    }
+
+    public Loan? GetActiveLoanForBookItem(int bookItemId)
+    {
+        if (Loans == null) return null;
+        return Loans.FirstOrDefault(l => l.BookItemId == bookItemId && l.ReturnDate == null);
+    }
     public List<Author>? Authors { get; set; }
     public List<Book>? Books { get; set; }
     public List<BookItem>? BookItems { get; set; }
